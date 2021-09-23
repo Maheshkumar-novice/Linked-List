@@ -27,10 +27,16 @@ class SinglyLinkedList
   end
 
   def insert_at(value, index)
+    increase_size_by_one
     new_node = SingleLinkNode.new(value)
     current_node, previous_node = previous_and_current_nodes(index)
     previous_node.next_node = new_node
     new_node.next_node = current_node
+  end
+
+  def shift
+    decrease_size_by_one
+    remove_at_first
   end
 
   def pop
@@ -39,6 +45,7 @@ class SinglyLinkedList
   end
 
   def remove_at(index)
+    decrease_size_by_one
     current_node, previous_node = previous_and_current_nodes(index)
     previous_node.next_node = current_node.next_node
     current_node.next_node = nil
@@ -92,6 +99,12 @@ class SinglyLinkedList
     new_node = SingleLinkNode.new(value)
     new_node.next_node = @head
     @head = new_node
+  end
+
+  def remove_at_first
+    node = @head
+    @head = @head.next_node
+    node.next_node = nil
   end
 
   def remove_at_last
