@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative 'nodes/single-link-node'
+require_relative 'single-link-node'
 
 # Singly Linked List
 # rubocop: disable Metrics/ClassLength
