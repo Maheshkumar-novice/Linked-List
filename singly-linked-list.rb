@@ -56,6 +56,20 @@ class SinglyLinkedList
     str
   end
 
+  def insert_at(value, index)
+    new_node = SinglyLinkedListNode.new(value)
+    current_node = @head.next_node
+    previous_node = @head
+    iteration_index = 1
+    until iteration_index == index
+      previous_node = current_node
+      current_node = current_node.next_node
+      iteration_index += 1
+    end
+    previous_node.next_node = new_node
+    new_node.next_node = current_node
+  end
+
   private
 
   def insert_node_at_last(value)
