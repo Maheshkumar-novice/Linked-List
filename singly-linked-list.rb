@@ -8,8 +8,8 @@ class SinglyLinkedList
   attr_accessor :head, :tail
   attr_reader :size
 
-  def initialize(value = nil, next_node = nil)
-    @head = SinglyLinkedListNode.new(value, next_node)
+  def initialize(value = nil)
+    @head = SinglyLinkedListNode.new(value)
     @tail = @head
     @size = 1
   end
