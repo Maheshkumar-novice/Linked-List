@@ -36,9 +36,13 @@ class SinglyLinkedList
   end
 
   def contains?(value)
-    return false unless value_in_list?(value)
+    return false if index_of_value(value).nil?
 
     true
+  end
+
+  def find(value)
+    index_of_value(value)
   end
 
   private
@@ -72,17 +76,20 @@ class SinglyLinkedList
     node
   end
 
-  def value_in_list?(value)
-    return true if @head.value == value || @tail.value == value
+  def index_of_value(value)
+    return 0 if @head.value == value
+    return size - 1 if @tail.value == value
 
     node = @head
+    index = 0
     while node.next_node
-      return true if node.value == value
+      return index if node.value == value
 
       node = node.next_node
+      index += 1
     end
 
-    false
+    nil
   end
 
   def increase_size_by_one
