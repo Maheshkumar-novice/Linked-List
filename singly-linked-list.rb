@@ -57,6 +57,16 @@ class SinglyLinkedList
   end
 
   # rubocop: disable Lint/UselessSetterCall
+  def update_at(value, index)
+    iteration_index = 0
+    node = @head
+    until iteration_index == index
+      node = node.next_node
+      iteration_index += 1
+    end
+    node.value = value
+  end
+
   def insert_at(value, index)
     new_node = SingleLinkNode.new(value)
     current_node, previous_node = previous_and_current_nodes(index)
