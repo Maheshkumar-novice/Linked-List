@@ -15,18 +15,26 @@ class SinglyLinkedList
   end
 
   def append(value)
-    @tail.next_node, @tail = SinglyLinkedListNode.new(value)
+    append_helper(value)
     increase_size
   end
 
   def prepend(value)
-    new_node = SinglyLinkedListNode.new(value)
-    new_node.next_node = @head
-    @head = new_node
+    prepend_helper(value)
     increase_size
   end
 
   private
+
+  def append_helper(value)
+    @tail.next_node, @tail = SinglyLinkedListNode.new(value)
+  end
+
+  def prepend_helper(value)
+    new_node = SinglyLinkedListNode.new(value)
+    new_node.next_node = @head
+    @head = new_node
+  end
 
   def increase_size
     @size += 1
