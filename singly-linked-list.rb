@@ -45,6 +45,17 @@ class SinglyLinkedList
     index_of_value(value)
   end
 
+  def to_s
+    node = @head
+    str = ''
+    until node.nil?
+      str += "( #{node.value.inspect} ) -> "
+      node = node.next_node
+    end
+    str += ' nil '
+    str
+  end
+
   private
 
   def insert_node_at_last(value)
