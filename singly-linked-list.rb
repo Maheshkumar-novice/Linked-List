@@ -15,13 +15,13 @@ class SinglyLinkedList
   end
 
   def append(value)
-    append_helper(value)
-    increase_size
+    insert_node_at_last(value)
+    increase_size_by_one
   end
 
   def prepend(value)
-    prepend_helper(value)
-    increase_size
+    insert_node_at_first(value)
+    increase_size_by_one
   end
 
   def at(index)
@@ -32,13 +32,13 @@ class SinglyLinkedList
 
   private
 
-  def append_helper(value)
+  def insert_node_at_last(value)
     new_node = SinglyLinkedListNode.new(value)
     @tail.next_node = new_node
     @tail = new_node
   end
 
-  def prepend_helper(value)
+  def insert_node_at_first(value)
     new_node = SinglyLinkedListNode.new(value)
     new_node.next_node = @head
     @head = new_node
@@ -52,7 +52,7 @@ class SinglyLinkedList
     node
   end
 
-  def increase_size
+  def increase_size_by_one
     @size += 1
   end
 end
