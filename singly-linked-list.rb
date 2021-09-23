@@ -4,12 +4,13 @@
 require_relative 'nodes/single-link-node'
 
 # Singly Linked List
+# rubocop: disable Metrics/ClassLength
 class SinglyLinkedList
   attr_accessor :head, :tail
   attr_reader :size
 
   def initialize(value = nil)
-    @head = SinglyLinkedListNode.new(value)
+    @head = SingleLinkNode.new(value)
     @tail = @head
     @size = 1
   end
@@ -57,7 +58,7 @@ class SinglyLinkedList
 
   # rubocop: disable Lint/UselessSetterCall
   def insert_at(value, index)
-    new_node = SinglyLinkedListNode.new(value)
+    new_node = SingleLinkNode.new(value)
     current_node, previous_node = previous_and_current_nodes(index)
     previous_node.next_node = new_node
     new_node.next_node = current_node
@@ -73,13 +74,13 @@ class SinglyLinkedList
   private
 
   def insert_node_at_last(value)
-    new_node = SinglyLinkedListNode.new(value)
+    new_node = SingleLinkNode.new(value)
     @tail.next_node = new_node
     @tail = new_node
   end
 
   def insert_node_at_first(value)
-    new_node = SinglyLinkedListNode.new(value)
+    new_node = SingleLinkNode.new(value)
     new_node.next_node = @head
     @head = new_node
   end
@@ -137,3 +138,4 @@ class SinglyLinkedList
     @size -= 1
   end
 end
+# rubocop: enable Metrics/ClassLength
