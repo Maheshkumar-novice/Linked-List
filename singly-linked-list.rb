@@ -27,7 +27,9 @@ class SinglyLinkedList
   private
 
   def append_helper(value)
-    @tail.next_node, @tail = SinglyLinkedListNode.new(value)
+    new_node = SinglyLinkedListNode.new(value)
+    @tail.next_node = new_node
+    @tail = new_node
   end
 
   def prepend_helper(value)
