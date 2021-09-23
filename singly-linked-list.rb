@@ -15,4 +15,10 @@ class SinglyLinkedList
   def append(value)
     @tail.next_node, @tail = SinglyLinkedListNode.new(value)
   end
+
+  def prepend(value)
+    new_node = SinglyLinkedListNode.new(value)
+    new_node.next_node = @head
+    @head = new_node
+  end
 end
