@@ -11,5 +11,8 @@ class SinglyLinkedList
     @head = SinglyLinkedListNode.new(value, next_node)
     @tail = @head
   end
-end
 
+  def append(value)
+    @tail.next_node, @tail = SinglyLinkedListNode.new(value)
+  end
+end
