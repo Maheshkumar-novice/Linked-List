@@ -48,40 +48,27 @@ class SinglyLinkedList
   def to_s
     node = @head
     str = ''
-    until node.nil?
+    loop do
       str += "( #{node.value.inspect} ) -> "
       node = node.next_node
+      return str += ' nil ' if node.nil?
     end
-    str += ' nil '
-    str
   end
 
+  # rubocop: disable Lint/UselessSetterCall
   def insert_at(value, index)
     new_node = SinglyLinkedListNode.new(value)
-    current_node = @head.next_node
-    previous_node = @head
-    iteration_index = 1
-    until iteration_index == index
-      previous_node = current_node
-      current_node = current_node.next_node
-      iteration_index += 1
-    end
+    current_node, previous_node = previous_and_current_nodes(index)
     previous_node.next_node = new_node
     new_node.next_node = current_node
   end
 
   def remove_at(index)
-    iteration_index = 1
-    current_node = @head.next_node
-    previous_node = @head
-    until iteration_index == index
-      previous_node = current_node
-      current_node = current_node.next_node
-      iteration_index += 1
-    end
+    current_node, previous_node = previous_and_current_nodes(index)
     previous_node.next_node = current_node.next_node
     current_node.next_node = nil
   end
+  # rubocop: enable Lint/UselessSetterCall
 
   private
 
@@ -128,6 +115,18 @@ class SinglyLinkedList
     end
 
     nil
+  end
+
+  def previous_and_current_nodes(index)
+    current_node = @head.next_node
+    previous_node = @head
+    iteration_index = 1
+    until iteration_index == index
+      previous_node = current_node
+      current_node = current_node.next_node
+      iteration_index += 1
+    end
+    [current_node, previous_node]
   end
 
   def increase_size_by_one
