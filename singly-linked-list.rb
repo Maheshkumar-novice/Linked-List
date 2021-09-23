@@ -16,13 +16,13 @@ class SinglyLinkedList
   end
 
   def append(value)
-    insert_node_at_last(value)
     increase_size_by_one
+    insert_node_at_last(value)
   end
 
   def prepend(value)
-    insert_node_at_first(value)
     increase_size_by_one
+    insert_node_at_first(value)
   end
 
   def at(index)
