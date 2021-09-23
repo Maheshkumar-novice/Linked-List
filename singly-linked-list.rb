@@ -70,6 +70,19 @@ class SinglyLinkedList
     new_node.next_node = current_node
   end
 
+  def remove_at(index)
+    iteration_index = 1
+    current_node = @head.next_node
+    previous_node = @head
+    until iteration_index == index
+      previous_node = current_node
+      current_node = current_node.next_node
+      iteration_index += 1
+    end
+    previous_node.next_node = current_node.next_node
+    current_node.next_node = nil
+  end
+
   private
 
   def insert_node_at_last(value)
