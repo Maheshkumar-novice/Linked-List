@@ -5,6 +5,7 @@ require_relative 'single-link-node'
 
 # Singly Linked List
 # rubocop: disable Metrics/ClassLength
+# rubocop: disable Lint/UselessSetterCall
 class SinglyLinkedList
   attr_accessor :head, :tail
   attr_reader :size
@@ -25,15 +26,38 @@ class SinglyLinkedList
     insert_node_at_first(value)
   end
 
-  def at(index)
-    return nil if index >= size
-
-    find_node_at_index(index)
+  def insert_at(value, index)
+    new_node = SingleLinkNode.new(value)
+    current_node, previous_node = previous_and_current_nodes(index)
+    previous_node.next_node = new_node
+    new_node.next_node = current_node
   end
 
   def pop
     decrease_size_by_one
     remove_at_last
+  end
+
+  def remove_at(index)
+    current_node, previous_node = previous_and_current_nodes(index)
+    previous_node.next_node = current_node.next_node
+    current_node.next_node = nil
+  end
+
+  def update_at(value, index)
+    iteration_index = 0
+    node = @head
+    until iteration_index == index
+      node = node.next_node
+      iteration_index += 1
+    end
+    node.value = value
+  end
+
+  def at(index)
+    return nil if index >= size
+
+    find_node_at_index(index)
   end
 
   def contains?(value)
@@ -55,31 +79,6 @@ class SinglyLinkedList
       return str += ' nil ' if node.nil?
     end
   end
-
-  # rubocop: disable Lint/UselessSetterCall
-  def update_at(value, index)
-    iteration_index = 0
-    node = @head
-    until iteration_index == index
-      node = node.next_node
-      iteration_index += 1
-    end
-    node.value = value
-  end
-
-  def insert_at(value, index)
-    new_node = SingleLinkNode.new(value)
-    current_node, previous_node = previous_and_current_nodes(index)
-    previous_node.next_node = new_node
-    new_node.next_node = current_node
-  end
-
-  def remove_at(index)
-    current_node, previous_node = previous_and_current_nodes(index)
-    previous_node.next_node = current_node.next_node
-    current_node.next_node = nil
-  end
-  # rubocop: enable Lint/UselessSetterCall
 
   private
 
@@ -149,3 +148,4 @@ class SinglyLinkedList
   end
 end
 # rubocop: enable Metrics/ClassLength
+# rubocop: enable Lint/UselessSetterCall
