@@ -35,6 +35,12 @@ class SinglyLinkedList
     remove_at_last
   end
 
+  def contains?(value)
+    return false unless value_in_list?(value)
+
+    true
+  end
+
   private
 
   def insert_node_at_last(value)
@@ -64,6 +70,19 @@ class SinglyLinkedList
       node = node.next_node
     end
     node
+  end
+
+  def value_in_list?(value)
+    return true if @head.value == value || @tail.value == value
+
+    node = @head
+    while node.next_node
+      return true if node.value == value
+
+      node = node.next_node
+    end
+
+    false
   end
 
   def increase_size_by_one
