@@ -24,6 +24,12 @@ class SinglyLinkedList
     increase_size
   end
 
+  def at(index)
+    return nil if index >= size
+
+    find_node_at_index(index)
+  end
+
   private
 
   def append_helper(value)
@@ -36,6 +42,14 @@ class SinglyLinkedList
     new_node = SinglyLinkedListNode.new(value)
     new_node.next_node = @head
     @head = new_node
+  end
+
+  def find_node_at_index(index)
+    node = @head
+    (index % @size).times do
+      node = node.next_node
+    end
+    node
   end
 
   def increase_size
