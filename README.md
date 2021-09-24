@@ -40,7 +40,7 @@ Here are the methods implementd in the `Node` & `Linked List` classes
 
 Method Name  | Description
 ------------ | -------------
-`Node#value`   | Returns the `value` of the Node
+`Node#value`   | `value` of the Node
 `Node#next_node` | Points to the `next_node` of the Linked List
 `LinkedList#append(value)` | Adds a new node containing `value` to the end of the `Linked List`
 `LinkedList#prepend(value)` | Adds a new node containing `value` to the start of the `Linked List`
