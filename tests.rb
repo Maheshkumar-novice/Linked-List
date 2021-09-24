@@ -7,13 +7,16 @@ puts "\nAdd:\n"
 # Add Tests
 add = SinglyLinkedList.new
 puts add
-# insert_at on empty list raises an error
+# insert_at & update_at on empty list raises an error
 # add.insert_at(1, 3)
+# add.update_at(1, 3)
 # add.remove_at(1)
 add.append(1)
 add.prepend(2)
 puts add
 add.insert_at(10, 1)
+puts add
+add.update_at(100, 1)
 puts add
 # insert_at on out of bound raises an error
 # add.insert_at(100, 3)
