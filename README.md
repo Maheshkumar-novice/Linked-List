@@ -40,8 +40,8 @@ Here are the methods implementd in the `Node` & `Linked List` classes
 
 Method Name  | Description
 ------------ | -------------
-`Node#value`   | `value` of the Node
-`Node#next_node` | Points to the `next_node` of the Linked List
+`Node#value`   | Returns `value` of the Node
+`Node#next_node` | Returns the `next_node` object of the `current_node`
 `LinkedList#append(value)` | Adds a new node containing `value` to the end of the `Linked List`
 `LinkedList#prepend(value)` | Adds a new node containing `value` to the start of the `Linked List`
 `LinkedList#insert_at(value, index)` | Inserts a `new node` with the provided `value` at the given `index`
