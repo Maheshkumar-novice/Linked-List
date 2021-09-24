@@ -16,12 +16,12 @@ class SinglyLinkedList
   end
 
   # Add a Node
-  def append(value)
-    insert_node_at_last(value)
-  end
-
   def prepend(value)
     insert_node_at_first(value)
+  end
+
+  def append(value)
+    insert_node_at_last(value)
   end
 
   def insert_at(value, index)
@@ -63,15 +63,9 @@ class SinglyLinkedList
 
   # String Form
   def to_s
-    return 'nil -> nil' if @head.nil?
+    return 'nil -> nil' if @size.zero?
 
-    node = @head
-    str = ''
-    loop do
-      str += "( #{node.value.inspect} ) -> "
-      node = node.next_node
-      return str += ' nil ' if node.nil?
-    end
+    string_version
   end
 
   private
@@ -84,18 +78,8 @@ class SinglyLinkedList
     complete_adding_a_node
   end
 
-  def insert_node_at_last(value)
-    return add_first_node(value) if head_and_tail_nil?
-
-    new_node = SingleLinkNode.new(value)
-    @tail.next_node = new_node
-    @tail = new_node
-
-    complete_adding_a_node
-  end
-
   def insert_node_at_first(value)
-    return add_first_node(value) if head_and_tail_nil?
+    return add_first_node(value) if @size.zero?
 
     new_node = SingleLinkNode.new(value)
     new_node.next_node = @head
@@ -104,8 +88,20 @@ class SinglyLinkedList
     complete_adding_a_node
   end
 
+  def insert_node_at_last(value)
+    return add_first_node(value) if @size.zero?
+
+    new_node = SingleLinkNode.new(value)
+    @tail.next_node = new_node
+    @tail = new_node
+
+    complete_adding_a_node
+  end
+
   def insert_node_at_index(value, index)
-    raise Standard Error, 'Invalid Index' if index >= @size || head_and_tail_nil?
+    index = index % @size unless @size.zero?
+    raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
+    return insert_node_at_first(value) if @size == 1 || index.zero?
 
     new_node = SingleLinkNode.new(value)
     current_node, previous_node = previous_and_current_nodes(index)
@@ -117,7 +113,7 @@ class SinglyLinkedList
 
   # Remove Node Helpers
   def remove_node_at_first
-    return nil if head_and_tail_nil?
+    return nil if @size.zero?
     return reset_to_initial_state if @size == 1
 
     node = @head
@@ -129,7 +125,7 @@ class SinglyLinkedList
   end
 
   def remove_node_at_last
-    return nil if head_and_tail_nil?
+    return nil if @size.zero?
     return reset_to_initial_state if @size == 1
 
     node = @head
@@ -142,8 +138,9 @@ class SinglyLinkedList
   end
 
   def remove_node_at_index(index)
-    return reset_to_initial_state if @size == 1
-    raise Standard Error, 'Invalid Index' if index >= @size || head_and_tail_nil?
+    index = index % @size unless @size.zero?
+    raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
+    return remove_node_at_first if index.zero?
 
     current_node, previous_node = previous_and_current_nodes(index)
     return_value = current_node
@@ -155,11 +152,12 @@ class SinglyLinkedList
 
   # Update Node Helpers
   def update_node_value(value, index)
-    return nil if head_and_tail_nil? || index >= @size
+    index = index % @size unless @size.zero?
+    raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
 
     iteration_index = 0
     node = @head
-    until iteration_index == (index % @size)
+    until iteration_index == index
       node = node.next_node
       iteration_index += 1
     end
@@ -169,10 +167,11 @@ class SinglyLinkedList
 
   # Node Existence Helpers
   def return_node_at_index(index)
-    return nil if head_and_tail_nil? || index >= size
+    index = index % @size unless @size.zero?
+    return nil if index >= size || @size.zero?
 
     node = @head
-    (index % @size).times do
+    index.times do
       node = node.next_node
     end
 
@@ -180,13 +179,13 @@ class SinglyLinkedList
   end
 
   def index_of_value(value)
-    return nil if head_and_tail_nil?
-    return size - 1 if @tail.value == value
+    return nil if @size.zero?
 
     node = @head
     index = 0
-    while node.next_node
+    loop do
       return index if node.value == value
+      break if node == @tail
 
       node = node.next_node
       index += 1
@@ -197,7 +196,6 @@ class SinglyLinkedList
 
   # Util Helpers
   def previous_and_current_nodes(index)
-    index = index % @size
     current_node = @head.next_node
     previous_node = @head
     iteration_index = 1
@@ -227,8 +225,14 @@ class SinglyLinkedList
     value
   end
 
-  def head_and_tail_nil?
-    [@head, @tail].all?(&:nil?)
+  def string_version
+    node = @head
+    str = ''
+    loop do
+      str += "( #{node.value.inspect} ) -> "
+      node = node.next_node
+      return str += ' nil ' if node.nil?
+    end
   end
 
   def reset_to_initial_state
