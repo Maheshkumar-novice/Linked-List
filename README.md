@@ -8,6 +8,9 @@
       <a href="#description">Description</a>
     </li>
     <li>
+      <a href="#applications">Applications</a>
+    </li>
+    <li>
       <a href="#built-with">Built With</a>
     </li>
      <li>
@@ -74,5 +77,5 @@ Method Name  | Description
 ## Acknowledgements
 * [The Odin Project](https://theodinproject.com)
 
-[Move To Top](#linked-lists)
+[Move To Top](#linked-list)
 
