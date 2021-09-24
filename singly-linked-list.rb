@@ -15,7 +15,6 @@ class SinglyLinkedList
     @size = 0
   end
 
-  # Add a Node
   def prepend(value)
     insert_node_at_first(value)
   end
@@ -28,7 +27,6 @@ class SinglyLinkedList
     insert_node_at_index(value, index)
   end
 
-  # Delete a Node
   def shift
     remove_node_at_first
   end
@@ -41,12 +39,10 @@ class SinglyLinkedList
     remove_node_at_index(index)
   end
 
-  # Update a Node
   def update_at(value, index)
     update_node_value(value, index)
   end
 
-  # Node Existence
   def at(index)
     return_node_at_index(index)
   end
@@ -61,7 +57,6 @@ class SinglyLinkedList
     index_of_value(value)
   end
 
-  # String Form
   def to_s
     return 'nil -> nil' if @size.zero?
 
@@ -70,7 +65,6 @@ class SinglyLinkedList
 
   private
 
-  # Add Node Helpers
   def add_first_node(value)
     @head = @tail = SingleLinkNode.new(value)
 
@@ -98,8 +92,8 @@ class SinglyLinkedList
   end
 
   def insert_node_at_index(value, index)
-    index %= @size if index.negative? && @size != 0
-    raise StandardError, 'Invalid Index' if @size.zero? || index >= @size
+    raise StandardError, 'Empty Linked List' if @size.zero?
+    raise StandardError, 'Index Out Of Bound' unless index.between?(0, @size - 1)
     return insert_node_at_first(value) if index.zero?
     return insert_node_at_last(value) if index == @size - 1
 
@@ -111,7 +105,6 @@ class SinglyLinkedList
     complete_adding_a_node
   end
 
-  # Remove Node Helpers
   def remove_node_at_first
     return nil if @size.zero?
     return reset_to_initial_state if @size == 1
@@ -138,8 +131,8 @@ class SinglyLinkedList
   end
 
   def remove_node_at_index(index)
-    index %= @size if index <= 0 && @size != 0
-    raise StandardError, 'Invalid Index' if @size.zero? || index >= @size
+    raise StandardError, 'Empty Linked List' if @size.zero?
+    raise StandardError, 'Index Out Of Bound' unless index.between?(0, @size - 1)
     return remove_node_at_first if index.zero?
     return remove_node_at_last if index == @size - 1
 
@@ -151,10 +144,9 @@ class SinglyLinkedList
     complete_removing_a_node(return_value)
   end
 
-  # Update Node Helpers
   def update_node_value(value, index)
-    index %= @size if index.negative? && @size != 0
-    raise StandardError, 'Invalid Index' if @size.zero? || index >= @size
+    raise StandardError, 'Empty Linked List' if @size.zero?
+    raise StandardError, 'Index Out Of Bound' unless index.between?(0, @size - 1)
 
     iteration_index = 0
     node = @head
@@ -166,10 +158,9 @@ class SinglyLinkedList
     to_s
   end
 
-  # Node Existence Helpers
   def return_node_at_index(index)
-    index = index % @size if index.negative? && @size != 0
-    return nil if @size.zero? || index >= size
+    return nil if @size.zero?
+    return nil unless index.between?(0, @size - 1)
 
     node = @head
     index.times do
@@ -195,7 +186,6 @@ class SinglyLinkedList
     nil
   end
 
-  # Util Helpers
   def previous_and_current_nodes(index)
     current_node = @head.next_node
     previous_node = @head
