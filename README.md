@@ -69,7 +69,7 @@ Method Name  | Description
 * Ruby
 
 ## What I Learned
-* What is linked list
+* About linked list
 * How to create a linked list
 * How to use a linked list
 * Operations on a linked list
