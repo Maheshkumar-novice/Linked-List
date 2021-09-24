@@ -33,7 +33,7 @@
   * Circular Linked List
   
 These are few types of `Linked List`. We are implementing `Singly Linked List` here (If I can I will implement other types in future). In `Singly Linked List` each `node` will contain one `data` and one `pointer` to the next `node` that follows. First node of a Linked List is called as a `head` node and the last one as a `tail` node.
-In this implementation we have two classes one for represents the `node` which we will use to create nodes for the `Linked List` and the other one is to represent the whole `Linked List` with all of the operations defined on the `Linked List`.
+In this implementation we have two classes one represents the `node` which we will use to create nodes of a `Linked List` and the other one is to represent the whole `Linked List` with all of the `operations` defined on the `Linked List`.
 
 
 Here are the methods implementd in the `Node` & `Linked List` classes
