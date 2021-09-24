@@ -2,10 +2,13 @@
 # frozen_string_literal: true
 
 require_relative 'single-link-node'
+require_relative 'Ruby-Colors/color'
 
 # Singly Linked List
 # rubocop: disable Metrics/ClassLength
 class SinglyLinkedList
+  include Color
+
   attr_accessor :head, :tail
   attr_reader :size
 
@@ -58,7 +61,7 @@ class SinglyLinkedList
   end
 
   def to_s
-    return 'nil -> nil' if @size.zero?
+    return empty_linked_list_string_version if @size.zero?
 
     string_version
   end
@@ -216,14 +219,26 @@ class SinglyLinkedList
     value
   end
 
+  def empty_linked_list_string_version
+    "#{color_text('nil', :red)} #{color_text('->', :green)} #{color_text('nil', :red)}"
+  end
+
   def string_version
     node = @head
     string = ''
     loop do
-      string += "( #{node.value.inspect} ) -> "
+      string += create_color_string(node.value)
       node = node.next_node
-      return string += ' nil ' if node.nil?
+      return string += color_text('nil', :red) if node.nil?
     end
+  end
+
+  def create_color_string(value)
+    "#{color_text('(',
+                  :yellow)} #{color_text(value,
+                                         :red)} #{color_text(')',
+                                                             :yellow)} #{color_text('->',
+                                                                                    :green)} "
   end
 
   def reset_to_initial_state
