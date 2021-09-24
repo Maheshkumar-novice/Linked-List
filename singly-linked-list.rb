@@ -102,6 +102,7 @@ class SinglyLinkedList
     index = index % @size unless @size.zero?
     raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
     return insert_node_at_first(value) if @size == 1 || index.zero?
+    return insert_node_at_last(value) if index == @size - 1
 
     new_node = SingleLinkNode.new(value)
     current_node, previous_node = previous_and_current_nodes(index)
@@ -141,6 +142,7 @@ class SinglyLinkedList
     index = index % @size unless @size.zero?
     raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
     return remove_node_at_first if index.zero?
+    return remove_node_at_last if index == @size - 1
 
     current_node, previous_node = previous_and_current_nodes(index)
     return_value = current_node
