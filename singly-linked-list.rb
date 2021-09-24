@@ -218,11 +218,11 @@ class SinglyLinkedList
 
   def string_version
     node = @head
-    str = ''
+    string = ''
     loop do
-      str += "( #{node.value.inspect} ) -> "
+      string += "( #{node.value.inspect} ) -> "
       node = node.next_node
-      return str += ' nil ' if node.nil?
+      return string += ' nil ' if node.nil?
     end
   end
 
