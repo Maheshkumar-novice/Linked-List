@@ -36,7 +36,7 @@ These are few types of `Linked List`. We are implementing `Singly Linked List` h
 In this implementation we have two classes one represents the `node` which we will use to create nodes of a `Linked List` and the other one is to represent the whole `Linked List` with all of the `operations` defined on the `Linked List`.
 
 
-Here are the methods implementd in the `Node` & `Linked List` classes
+Here are the methods implemented in the `Node` & `Linked List` classes
 
 Method Name  | Description
 ------------ | -------------
