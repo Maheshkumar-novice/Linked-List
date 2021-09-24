@@ -72,8 +72,7 @@ class SinglyLinkedList
 
   # Add Node Helpers
   def add_first_node(value)
-    new_node = SingleLinkNode.new(value)
-    @head = @tail = new_node
+    @head = @tail = SingleLinkNode.new(value)
 
     complete_adding_a_node
   end
@@ -99,9 +98,9 @@ class SinglyLinkedList
   end
 
   def insert_node_at_index(value, index)
-    index = index % @size unless @size.zero?
-    raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
-    return insert_node_at_first(value) if @size == 1 || index.zero?
+    index %= @size unless @size.zero? && index.positive?
+    raise StandardError, 'Invalid Index' if @size.zero? || index >= @size
+    return insert_node_at_first(value) if index.zero?
     return insert_node_at_last(value) if index == @size - 1
 
     new_node = SingleLinkNode.new(value)
@@ -139,8 +138,8 @@ class SinglyLinkedList
   end
 
   def remove_node_at_index(index)
-    index = index % @size unless @size.zero?
-    raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
+    index %= @size unless @size.zero? && index.positive?
+    raise StandardError, 'Invalid Index' if @size.zero? || index >= @size
     return remove_node_at_first if index.zero?
     return remove_node_at_last if index == @size - 1
 
@@ -154,8 +153,8 @@ class SinglyLinkedList
 
   # Update Node Helpers
   def update_node_value(value, index)
-    index = index % @size unless @size.zero?
-    raise StandardError, 'Invalid Index' if index >= @size || @size.zero?
+    index %= @size unless @size.zero? && index.positive?
+    raise StandardError, 'Invalid Index' if @size.zero? || index >= @size
 
     iteration_index = 0
     node = @head
@@ -169,8 +168,8 @@ class SinglyLinkedList
 
   # Node Existence Helpers
   def return_node_at_index(index)
-    index = index % @size unless @size.zero?
-    return nil if index >= size || @size.zero?
+    index = index % @size unless @size.zero? && index.positive?
+    return nil if @size.zero? || index >= size
 
     node = @head
     index.times do
