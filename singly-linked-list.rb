@@ -77,8 +77,7 @@ class SinglyLinkedList
   def insert_node_at_first(value)
     return add_first_node(value) if @size.zero?
 
-    new_node = SingleLinkNode.new(value)
-    new_node.next_node = @head
+    new_node = SingleLinkNode.new(value, @head)
     @head = new_node
 
     complete_adding_a_node
@@ -95,15 +94,12 @@ class SinglyLinkedList
   end
 
   def insert_node_at_index(value, index)
-    raise StandardError, 'Empty Linked List' if @size.zero?
-    raise StandardError, 'Index Out Of Bound' unless index.between?(0, @size - 1)
+    raise_error_if_needed(index)
     return insert_node_at_first(value) if index.zero?
     return insert_node_at_last(value) if index == @size - 1
 
-    new_node = SingleLinkNode.new(value)
-    current_node, previous_node = previous_and_current_nodes(index)
-    previous_node.next_node = new_node
-    new_node.next_node = current_node
+    new_node = SingleLinkNode.new(value, return_node_at_index(index))
+    return_node_at_index(index - 1).next_node = new_node
 
     complete_adding_a_node
   end
@@ -114,50 +110,39 @@ class SinglyLinkedList
 
     node = @head
     @head = @head.next_node
-    return_value = node
     node.next_node = nil
 
-    complete_removing_a_node(return_value)
+    complete_removing_a_node(node)
   end
 
   def remove_node_at_last
     return nil if @size.zero?
     return reset_to_initial_state if @size == 1
 
-    node = @head
-    node = node.next_node until node.next_node == @tail
-    node.next_node = nil
     return_value = @tail
-    @tail = node
+    last_before_node = return_node_at_index(@size - 2)
+    last_before_node.next_node = nil
+    @tail = last_before_node
 
     complete_removing_a_node(return_value)
   end
 
   def remove_node_at_index(index)
-    raise StandardError, 'Empty Linked List' if @size.zero?
-    raise StandardError, 'Index Out Of Bound' unless index.between?(0, @size - 1)
+    raise_error_if_needed(index)
     return remove_node_at_first if index.zero?
     return remove_node_at_last if index == @size - 1
 
-    current_node, previous_node = previous_and_current_nodes(index)
-    return_value = current_node
-    previous_node.next_node = current_node.next_node
-    current_node.next_node = nil
+    node_to_remove, previous_node = current_and_previous_nodes(index)
+    previous_node.next_node = node_to_remove.next_node
+    node_to_remove.next_node = nil
 
-    complete_removing_a_node(return_value)
+    complete_removing_a_node(node_to_remove)
   end
 
   def update_node_value(value, index)
-    raise StandardError, 'Empty Linked List' if @size.zero?
-    raise StandardError, 'Index Out Of Bound' unless index.between?(0, @size - 1)
+    raise_error_if_needed(index)
 
-    iteration_index = 0
-    node = @head
-    until iteration_index == index
-      node = node.next_node
-      iteration_index += 1
-    end
-    node.value = value
+    return_node_at_index(index).value = value
     to_s
   end
 
@@ -189,16 +174,8 @@ class SinglyLinkedList
     nil
   end
 
-  def previous_and_current_nodes(index)
-    current_node = @head.next_node
-    previous_node = @head
-    iteration_index = 1
-    until iteration_index == index
-      previous_node = current_node
-      current_node = current_node.next_node
-      iteration_index += 1
-    end
-    [current_node, previous_node]
+  def current_and_previous_nodes(index)
+    [return_node_at_index(index), return_node_at_index(index - 1)]
   end
 
   def increase_size_by_one
@@ -219,8 +196,15 @@ class SinglyLinkedList
     value
   end
 
-  def empty_linked_list_string_version
-    "#{color_text('nil', :red)} #{color_text('->', :green)} #{color_text('nil', :red)}"
+  def raise_error_if_needed(index)
+    raise StandardError, 'Empty Linked List' if @size.zero?
+    raise StandardError, 'Index Out Of Bound' unless index.between?(0, @size - 1)
+  end
+
+  def reset_to_initial_state
+    @head = nil
+    @tail = nil
+    @size = 0
   end
 
   def string_version
@@ -233,18 +217,16 @@ class SinglyLinkedList
     end
   end
 
+  def empty_linked_list_string_version
+    "#{color_text('nil', :red)} #{color_text('->', :green)} #{color_text('nil', :red)}"
+  end
+
   def create_color_string(value)
     "#{color_text('(',
                   :yellow)} #{color_text(value,
                                          :red)} #{color_text(')',
                                                              :yellow)} #{color_text('->',
                                                                                     :green)} "
-  end
-
-  def reset_to_initial_state
-    @head = nil
-    @tail = nil
-    @size = 0
   end
 end
 # rubocop: enable Metrics/ClassLength
