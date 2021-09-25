@@ -77,19 +77,14 @@ class SinglyLinkedList
   def insert_node_at_first(value)
     return add_first_node(value) if @size.zero?
 
-    new_node = SingleLinkNode.new(value, @head)
-    @head = new_node
-
+    @head = SingleLinkNode.new(value, @head)
     complete_adding_a_node
   end
 
   def insert_node_at_last(value)
     return add_first_node(value) if @size.zero?
 
-    new_node = SingleLinkNode.new(value)
-    @tail.next_node = new_node
-    @tail = new_node
-
+    @tail = @tail.next_node = SingleLinkNode.new(value)
     complete_adding_a_node
   end
 
@@ -98,8 +93,7 @@ class SinglyLinkedList
     return insert_node_at_first(value) if index.zero?
     return insert_node_at_last(value) if index == @size - 1
 
-    new_node = SingleLinkNode.new(value, return_node_at_index(index))
-    return_node_at_index(index - 1).next_node = new_node
+    return_node_at_index(index - 1).next_node = SingleLinkNode.new(value, return_node_at_index(index))
 
     complete_adding_a_node
   end
@@ -108,23 +102,22 @@ class SinglyLinkedList
     return nil if @size.zero?
     return reset_to_initial_state if @size == 1
 
-    node = @head
+    removed_node = @head
     @head = @head.next_node
-    node.next_node = nil
+    removed_node.next_node = nil
 
-    complete_removing_a_node(node)
+    complete_removing_a_node(removed_node)
   end
 
   def remove_node_at_last
     return nil if @size.zero?
     return reset_to_initial_state if @size == 1
 
-    return_value = @tail
-    last_before_node = return_node_at_index(@size - 2)
-    last_before_node.next_node = nil
-    @tail = last_before_node
+    removed_node = @tail
+    @tail = return_node_at_index(@size - 2)
+    @tail.next_node = nil
 
-    complete_removing_a_node(return_value)
+    complete_removing_a_node(removed_node)
   end
 
   def remove_node_at_index(index)
@@ -146,32 +139,21 @@ class SinglyLinkedList
     to_s
   end
 
-  def return_node_at_index(index)
+  def return_node_at_index(index, node = @head)
+    return node if index.zero?
     return nil if @size.zero?
     return nil unless index.between?(0, @size - 1)
 
-    node = @head
-    index.times do
-      node = node.next_node
-    end
-
-    node
+    index -= 1
+    return_node_at_index(index, node.next_node)
   end
 
-  def index_of_value(value)
-    return nil if @size.zero?
+  def index_of_value(value, node = @head, index = 0)
+    return nil if @size.zero? || node.nil?
+    return index if node.value == value
 
-    node = @head
-    index = 0
-    loop do
-      return index if node.value == value
-      break if node == @tail
-
-      node = node.next_node
-      index += 1
-    end
-
-    nil
+    index += 1
+    index_of_value(value, node.next_node, index)
   end
 
   def current_and_previous_nodes(index)
@@ -207,14 +189,11 @@ class SinglyLinkedList
     @size = 0
   end
 
-  def string_version
-    node = @head
-    string = ''
-    loop do
-      string += create_color_string(node.value)
-      node = node.next_node
-      return string += color_text('nil', :red) if node.nil?
-    end
+  def string_version(node = @head, string = '')
+    return string += color_text('nil', :red) if node.nil?
+
+    string += create_color_string(node.value)
+    string_version(node.next_node, string)
   end
 
   def empty_linked_list_string_version
