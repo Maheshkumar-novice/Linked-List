@@ -139,13 +139,13 @@ class SinglyLinkedList
     to_s
   end
 
-  def node_at_index(index, node = @head)
-    return node if index.zero?
+  def node_at_index(index, node = @head, iteration = 0)
+    return node if index.equal?(iteration)
     return nil if @size.zero?
     return nil unless index.between?(0, @size - 1)
 
-    index -= 1
-    node_at_index(index, node.next_node)
+    iteration += 1
+    node_at_index(index, node.next_node, iteration)
   end
 
   def index_of_value(value, node = @head, index = 0)
