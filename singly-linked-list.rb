@@ -47,7 +47,7 @@ class SinglyLinkedList
   end
 
   def at(index)
-    return_node_at_index(index)
+    node_at_index(index)
   end
 
   def contains?(value)
@@ -91,16 +91,16 @@ class SinglyLinkedList
   def insert_node_at_index(value, index)
     raise_error_if_needed(index)
     return insert_node_at_first(value) if index.zero?
-    return insert_node_at_last(value) if index == @size - 1
+    return insert_node_at_last(value) if index.equal?(@size - 1)
 
-    return_node_at_index(index - 1).next_node = SingleLinkNode.new(value, return_node_at_index(index))
+    node_at_index(index - 1).next_node = SingleLinkNode.new(value, node_at_index(index))
 
     complete_adding_a_node
   end
 
   def remove_node_at_first
     return nil if @size.zero?
-    return reset_to_initial_state if @size == 1
+    return reset_to_initial_state if @size.equal?(1)
 
     removed_node = @head
     @head = @head.next_node
@@ -111,10 +111,10 @@ class SinglyLinkedList
 
   def remove_node_at_last
     return nil if @size.zero?
-    return reset_to_initial_state if @size == 1
+    return reset_to_initial_state if @size.equal?(1)
 
     removed_node = @tail
-    @tail = return_node_at_index(@size - 2)
+    @tail = node_at_index(@size - 2)
     @tail.next_node = nil
 
     complete_removing_a_node(removed_node)
@@ -123,7 +123,7 @@ class SinglyLinkedList
   def remove_node_at_index(index)
     raise_error_if_needed(index)
     return remove_node_at_first if index.zero?
-    return remove_node_at_last if index == @size - 1
+    return remove_node_at_last if index.equal?(@size - 1)
 
     node_to_remove, previous_node = current_and_previous_nodes(index)
     previous_node.next_node = node_to_remove.next_node
@@ -135,17 +135,17 @@ class SinglyLinkedList
   def update_node_value(value, index)
     raise_error_if_needed(index)
 
-    return_node_at_index(index).value = value
+    node_at_index(index).value = value
     to_s
   end
 
-  def return_node_at_index(index, node = @head)
+  def node_at_index(index, node = @head)
     return node if index.zero?
     return nil if @size.zero?
     return nil unless index.between?(0, @size - 1)
 
     index -= 1
-    return_node_at_index(index, node.next_node)
+    node_at_index(index, node.next_node)
   end
 
   def index_of_value(value, node = @head, index = 0)
@@ -157,7 +157,7 @@ class SinglyLinkedList
   end
 
   def current_and_previous_nodes(index)
-    [return_node_at_index(index), return_node_at_index(index - 1)]
+    [node_at_index(index), node_at_index(index - 1)]
   end
 
   def increase_size_by_one
@@ -196,16 +196,16 @@ class SinglyLinkedList
     string_version(node.next_node, string)
   end
 
-  def empty_linked_list_string_version
-    "#{color_text('nil', :red)} #{color_text('->', :green)} #{color_text('nil', :red)}"
-  end
-
   def create_color_node(value)
     "#{color_text('(',
                   :yellow)} #{color_text(value,
                                          :red)} #{color_text(')',
                                                              :yellow)} #{color_text('->',
                                                                                     :green)} "
+  end
+
+  def empty_linked_list_string_version
+    "#{color_text('nil', :red)} #{color_text('->', :green)} #{color_text('nil', :red)}"
   end
 end
 # rubocop: enable Metrics/ClassLength
